@@ -128,20 +128,15 @@ class ProductController extends Controller
         // Redirige de vuelta a la vista de índice de productos
         return redirect()->route('products.index');
     }
-
     public function downloadPdf($id)
     {
-        $product = Product::find($id);
-    
-        if (!$product) {
-            abort(404);
-        }
+        $product = Product::with('prices')->findOrFail($id);
     
         // Crear una nueva instancia de Dompdf
         $dompdf = new Dompdf();
     
         // Cargar la vista 'products.pdf' con los datos del producto
-        $html = view('products.pdf', compact('product'));
+        $html = view('products.pdf', compact('product'))->render();
     
         // Cargar el contenido HTML en Dompdf
         $dompdf->loadHtml($html);
@@ -152,7 +147,6 @@ class ProductController extends Controller
         // Descargar el PDF con un nombre de archivo específico
         return $dompdf->stream('producto_'.$product->id.'.pdf');
     }
-    
     
     
 }

@@ -27,7 +27,7 @@ Route::get('/appointments/price/{productId}', [AppointmentController::class, 'ge
 Route::get('/productos/{id}/pdf', [ProductController::class, 'downloadPdf'])->name('products.pdf');
 Route::resource('categories', CategoryController::class)->middleware('auth')->except(['show']);
 
-Route::get('/', [PageController::class, 'home'])->name('home');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -40,3 +40,4 @@ Route::get('/export/products', [ExportController::class, 'export'])->name('expor
 
 
 require __DIR__.'/auth.php';
+

@@ -169,6 +169,6 @@ class AppointmentController extends Controller
         $appointment->delete();
 
         // Retornar una respuesta JSON
-        return response()->json(['message' => 'Cita eliminada correctamente']);
+        return redirect()->route('appointments.index');
     }
 }

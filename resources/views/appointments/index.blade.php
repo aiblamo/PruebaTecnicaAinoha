@@ -1,12 +1,32 @@
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-    <meta charset='utf-8' />
+@extends('layouts.app')
+
+@section('content')
+
+    <!-- Encabezado -->
+    <x-slot name="header">
+        <div class="container-fluid bg-light py-3">
+            <div class="container">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col">
+                        <h2 class="font-weight-bold text-dark">Citas</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </x-slot>
+
+    <!-- Contenido del calendario -->
+    <div class="container my-4">
+        <div id='calendar'></div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+    
 
     <script>
-       
 
+        
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -22,46 +42,26 @@
                     @endforeach
                 ],
                 dateClick: function(info) {
-                    // Obtener la fecha seleccionada en formato ISO
-                    var fechaSeleccionada = info.dateStr;
-                    console.log('Fecha seleccionada:', fechaSeleccionada); // Imprimir la fecha seleccionada en la consola
+                    var today = new Date();
+                    var fechaSeleccionada = new Date(info.dateStr);
+                  
 
-                    // Redirigir a la página de creación con la fecha como parámetro
-                    window.location.href = '{{ route("appointments.create") }}?fecha_pedido=' + fechaSeleccionada;
+                    if (fechaSeleccionada < today) {
+                        alert('No puedes seleccionar fechas pasadas.');
+                    } else {
+                        window.location.href = '{{ route("appointments.create") }}?fecha_pedido=' + info.dateStr;
+                    }
                 },
                 eventClick: function(info) {
                     var eventId = info.event.id;
-
-                    // Obtener la fecha seleccionada en formato ISO
                     var fechaSeleccionada = info.event.startStr;
-
-                    // Obtener todos los datos del evento
                     var eventData = info.event.extendedProps;
-
-                    // Convertir el objeto de evento en formato JSON
                     var eventDataJSON = JSON.stringify(eventData);
-
-                    // Redireccionar a la URL del evento al hacer clic en él y pasar los datos como parámetro
                     window.location.href = '{{ route("appointments.edit", ["appointment" => ":eventId"]) }}'.replace(':eventId', eventId) + '?fecha_pedido=' + fechaSeleccionada + '&eventData=' + encodeURIComponent(eventDataJSON);
                 }
             });
             calendar.render();
         });
     </script>
-</head>
-<body>
-<!-- Encabezado -->
-<x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight flex items-center justify-between">
-        {{ __('Citas') }}
-    </h2>
-</x-slot>
 
-<!-- Contenido del calendario -->
-<x-app-layout>
-    <div id='calendar'></div>
-</x-app-layout>
-</body>
-</html>
-
-
+@endsection

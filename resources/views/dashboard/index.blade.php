@@ -1,4 +1,5 @@
-<x-app-layout>
+@extends('layouts.app')
+@section('content')
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Dashboard') }}
@@ -6,14 +7,19 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    <a href="{{ route('products.index') }}" class="text-m bg-gray-800 text-white rounded px-2 py-1">Productos</a>
-                    <a href="{{ route('categories.index') }}" class="text-m bg-gray-800 text-white rounded px-2 py-1">Categorías</a>
-                    <a href="{{ route('appointments.index') }}" class="text-m bg-gray-800 text-white rounded px-2 py-1">Citas</a>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body bg-white border border-gray-200">
+                            <a href="{{ route('products.index') }}" class="btn btn-primary btn-block mb-2">Productos</a>
+                            <a href="{{ route('categories.index') }}" class="btn btn-primary btn-block mb-2">Categorías</a>
+                            <a href="{{ route('appointments.index') }}" class="btn btn-primary btn-block mb-2">Citas</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</x-app-layout>
+    
+@endsection

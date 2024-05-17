@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Prueba Tecnica</title>
+ <!-- Fonts -->
+ <link rel="dns-prefetch" href="//fonts.bunny.net">
+ <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
-    <!-- Incluye el archivo CSS de Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+ <!-- Scripts -->
+ @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
     <div class="container px-4 mx-auto">
@@ -39,6 +42,7 @@
     </div>
 
     <!-- Incluye el archivo JS de Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+        
 </body>
 </html>

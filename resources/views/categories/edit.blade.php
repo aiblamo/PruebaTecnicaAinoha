@@ -8,6 +8,12 @@
                     <div class="card-header">{{ __('Categorías') }}</div>
 
                     <div class="card-body">
+
+                        @if (session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                        @endif
                         <form action="{{ route('categories.update', $category) }}" method="POST" enctype="multipart/form-data">
                             @method('PUT')
                             

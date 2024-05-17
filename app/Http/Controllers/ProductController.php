@@ -16,10 +16,13 @@ class ProductController extends Controller
 {
     //
     public function index(){
-        return view('products.index', [
-            'products'=>Product::all()
-            
-        ]);
+        // Obtener el ID del usuario autenticado
+        $userId = auth()->id();
+        
+    // Obtener los productos asociados al usuario autenticado
+    $products = Product::where('user_id', $userId)->get();
+
+    return view('products.index', compact('products'));
     }
 
     public function destroy(Product $product){
@@ -48,14 +51,21 @@ class ProductController extends Controller
         if ($request->hasFile('photo')) {
             // Guarda la nueva foto en el disco 'public'
             $photoPath = $request->file('photo')->store('photos', 'public');
+
+             // Obtener el usuario autenticado
+            $user = $request->user();
         
-            // Crea un nuevo producto con los datos recibidos
-            $product = Product::create([
-                'name' => $request->name,
-                'description' => $request->description,
-                'photo' => $photoPath, // Guarda la ruta de la foto en la base de datos
-            ]);
-    
+           // Crea un nuevo producto con los datos recibidos
+        $product = new Product();
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->photo = $photoPath;
+        $product->user_id = $user->id; // Asigna el ID del usuario autenticado
+        $product->save();
+            
+           
+            $product->save();
+
             // Guarda los detalles adicionales
             $product->prices()->create([
                 'price' => $request->price,
@@ -84,6 +94,12 @@ class ProductController extends Controller
     
 
     public function update(Request $request, Product $product){
+
+         // Verificar si el usuario autenticado es el autor del producto
+    if ($request->user()->id !== $product->user_id) {
+        // Si el usuario no es el autor, devolver un mensaje de error o redirigir
+        return redirect()->back()->with('error', 'No tienes permiso para editar este producto.');
+    }
         
         $request->validate([
             'name' => 'required',
@@ -129,7 +145,10 @@ class ProductController extends Controller
         return redirect()->route('products.index');
     }
     public function downloadPdf($id)
+
     {
+              // Verificar si el usuario autenticado es el autor del producto
+    
         $product = Product::with('prices')->findOrFail($id);
     
         // Crear una nueva instancia de Dompdf

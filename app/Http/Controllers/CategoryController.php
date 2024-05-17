@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Category;
+use App\Models\User;
 
 class CategoryController extends Controller
 {
     public function index(){
-
-        return view('categories.index',[
-            'categories'=>Category::all()
-        ]);
+        $userId=auth()->id();
+        $categories=Category::where('user_id', $userId)->get();
+        return view('categories.index',compact('categories'));
     }
+
+
 
     public function destroy(Category $category){
         $category->delete();
@@ -33,11 +35,15 @@ class CategoryController extends Controller
             'description' => 'required',
             'parent_id' => 'nullable|exists:categories,id', // Hace que parent_id sea opcional y valida si existe en la tabla categories
         ]);
+
+         // Obtener el usuario autenticado
+         $user = $request->user();
     
         $category = new Category();
         $category->name = $request->name;
         $category->description = $request->description;
         $category->parent_id = $request->parent_id;
+        $category->user_id = $user->id;
         $category->save();
     
         return redirect()->route('categories.index')->with('success', 'Categoría creada exitosamente.');
@@ -51,6 +57,11 @@ class CategoryController extends Controller
     }
 
     public function update(Request $request, Category $category){
+
+        if ($request->user()->id !== $category->user_id) {
+            // Si el usuario no es el autor, devolver un mensaje de error o redirigir
+            return redirect()->back()->with('error', 'No tienes permiso para editar este producto.');
+        }
         
         $request->validate([
             'name' => 'required',

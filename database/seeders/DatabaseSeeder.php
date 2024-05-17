@@ -16,14 +16,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Crear un usuario
-        User::factory()->create();
+        User::factory(10)->create();
 
-        // Crear productos y precios para cada producto
-        $products = Product::factory(10)->create();
-        foreach ($products as $product) {
-            ProductPrice::factory()->create([
-                'product_id' => $product->id,
-            ]);
-        }
+      
     }
 }

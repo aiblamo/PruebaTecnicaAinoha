@@ -13,6 +13,13 @@
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-body ml-6"> <!-- Agregamos la clase ml-3 para el margen izquierdo -->
+
+                            @if (session('error'))
+                                <div class="alert alert-danger">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
+
                             <form action="{{ route('products.update', $product) }}" method="POST" enctype="multipart/form-data">
                                 @method('PUT')
                                 @csrf
@@ -26,5 +33,4 @@
             </div>
         </div>
     </div>
-
 @endsection

@@ -11,17 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('description')->nullable();
-            $table->string('photo')->nullable(); // URL o nombre de archivo de la imagen
-            $table->unsignedBigInteger('user_id');
-            $table->timestamps();
-            
+        Schema::table('categories', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id')->nullable()->after('parent_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-       
         });
+
 
     }
 
@@ -30,6 +24,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::table('categories', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+            $table->dropColumn('user_id');
+        });
     }
 };

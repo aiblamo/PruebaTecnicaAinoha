@@ -34,4 +34,9 @@ class Product extends Model
     return $latestPrice ? $latestPrice->price : null;
 }
 
+public function user()
+{
+    return $this->belongsTo(User::class);
+}
+
 }

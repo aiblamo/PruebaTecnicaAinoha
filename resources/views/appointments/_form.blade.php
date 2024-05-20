@@ -39,7 +39,7 @@
 
 
 <div class="d-flex justify-content-between align-items-center">
-    <a href="{{ route('categories.index') }}" class="text-indigo-600">Volver</a>
+    <a href="{{ route('appointments.index') }}" class="text-indigo-600">Volver</a>
    
     <button type="submit" class="btn btn-primary">Enviar</button>
     

@@ -108,6 +108,7 @@ class ProductController extends Controller
             'price'=>'required|numeric',
             'start_date'=>'required|date',
             'end_date'=>'required|date|after_or_equal:start_date',
+            'category_id'=>'required|exists:categories,id'
         ]);
     
         // Si se proporciona una nueva foto
@@ -140,6 +141,9 @@ class ProductController extends Controller
                 'end_date' => $request->end_date
             ]);
         }
+
+        // Actualizar categorías
+        $product->categories()->sync($request->category_id);
     
         // Redirige de vuelta a la vista de índice de productos
         return redirect()->route('products.index');
@@ -149,7 +153,10 @@ class ProductController extends Controller
     {
               // Verificar si el usuario autenticado es el autor del producto
     
-        $product = Product::with('prices')->findOrFail($id);
+        $product = Product::with([
+            'prices',
+            'categories'
+        ])->findOrFail($id);
     
         // Crear una nueva instancia de Dompdf
         $dompdf = new Dompdf();

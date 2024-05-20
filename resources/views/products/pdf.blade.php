@@ -40,6 +40,14 @@
                     <span class="value">{{ $product->description }}</span>
                 </div>
                 <div class="card-text">
+                    <span class="label">Categoría:</span>
+                    <span class="value">
+                        @foreach ($product->categories as $category)
+                            {{ $category->name }}{{ !$loop->last ? ',' : '' }}
+                        @endforeach
+                    </span>
+                </div>
+                <div class="card-text">
                     <span class="label">Precios:</span>
                 </div>
                 @if($product->prices->isNotEmpty())

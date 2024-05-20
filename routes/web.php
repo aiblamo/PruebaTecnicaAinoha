@@ -35,7 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/export/products', [ExportController::class, 'export'])->name('export.products');
+Route::get('export/products', [ExportController::class, 'export'])->name('export.products');
 
 
 

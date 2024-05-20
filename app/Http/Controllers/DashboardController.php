@@ -11,7 +11,7 @@ class DashboardController extends Controller
     public function index()
     {
         
-
+        //retornamos la vista del dashboard
         return view('dashboard.index');
     }
 }

@@ -36,10 +36,14 @@
     <select name="category_id" id="category_id" class="form-select rounded border border-gray-200">
         <option value="">Seleccionar Categoría</option>
         @foreach($categories as $category)
-            <option value="{{ $category->id }}" {{ old('category_id', $product->categories->pluck('id')->first()) == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+            <option value="{{ $category->id }}" {{ old('category_id', $product->categories->pluck('id')->contains($category->id) ? 'selected' : '') }}>{{ $category->name }}</option>
         @endforeach
     </select>
 </div>
+
+
+
+
 
 <div class="mb-3">
     <label for="photo" class="form-label text-uppercase text-gray-700 fs-6">Foto</label>

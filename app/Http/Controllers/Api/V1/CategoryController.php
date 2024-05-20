@@ -79,6 +79,12 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+
+            // Verificar si el usuario autenticado es el propietario del producto
+            if (Auth::id() !== $category->user_id) {
+                return response()->json(['error' => 'No tienes permiso para editar esta categoria.'], 403);
+            }
+    
         // Validar los datos de la solicitud
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',

@@ -3,35 +3,20 @@
 namespace Database\Factories;
 
 use App\Models\Product;
-use App\Models\Category;
-
-
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Faker\Factory as FakerFactory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
- */
 class ProductFactory extends Factory
 {
     protected $model = Product::class;
 
     public function definition(): array
     {
-        $faker = FakerFactory::create();
-
         return [
-            'name' => $faker->unique()->word,
-            'description' => $faker->sentence,
-            'photo' => $faker->imageUrl(),
+            'name' => $this->faker->unique()->word,
+            'description' => $this->faker->sentence,
+            'photo' => $this->faker->imageUrl(),
+            'user_id' => User::inRandomOrder()->first()->id ?? User::factory()->create()->id,
         ];
-    }
-
-    public function configure()
-    {
-        return $this->afterCreating(function (Product $product) {
-            $category = Category::factory()->create();
-            $product->categories()->attach($category);
-        });
     }
 }

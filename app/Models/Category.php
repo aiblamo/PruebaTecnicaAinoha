@@ -24,7 +24,7 @@ class Category extends Model
     public function products()
     {
         // Define la relación "pertenece a muchos" con el modelo Product
-        return $this->belongsToMany(Product::class, 'category_product', 'category_id', 'product_id');
+        return $this->belongsToMany(Product::class, 'category_product', 'category_id', 'product_id', 'user_id');
     }
 
     /**

@@ -1,13 +1,14 @@
 <?php
+
 namespace Database\Factories;
 
-use App\Models\ProductPrice;
+use App\Models\Appointment;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ProductPriceFactory extends Factory
+class AppointmentFactory extends Factory
 {
-    protected $model = ProductPrice::class;
+    protected $model = Appointment::class;
 
     public function definition(): array
     {
@@ -16,9 +17,9 @@ class ProductPriceFactory extends Factory
 
         return [
             'product_id' => $productId,
-            'price' => $this->faker->randomFloat(2, 1, 100),
-            'start_date' => $this->faker->dateTimeBetween('-1 year', 'now'),
-            'end_date' => $this->faker->dateTimeBetween('now', '+1 year'),
+            'fecha_pedido' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'unidades_comprar' => $this->faker->numberBetween(1, 100),
+            'total' => $this->faker->randomFloat(2, 1, 1000), // Precio total aleatorio entre 1 y 1000
         ];
     }
 }

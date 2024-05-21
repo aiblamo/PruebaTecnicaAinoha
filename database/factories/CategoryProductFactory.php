@@ -14,12 +14,17 @@ class CategoryProductFactory extends Factory
 
     public function definition(): array
     {
-        $category_id = Category::factory();
-        $product_id = Product::factory();
+        // Obtener IDs de categorías y productos existentes
+        $categoryIds = Category::pluck('id')->toArray();
+        $productIds = Product::pluck('id')->toArray();
+
+        // Seleccionar aleatoriamente una categoría y un producto existentes
+        $categoryId = $this->faker->randomElement($categoryIds);
+        $productId = $this->faker->randomElement($productIds);
 
         return [
-            'category_id' => $category_id,
-            'product_id' => $product_id,
+            'category_id' => $categoryId,
+            'product_id' => $productId,
         ];
     }
 }

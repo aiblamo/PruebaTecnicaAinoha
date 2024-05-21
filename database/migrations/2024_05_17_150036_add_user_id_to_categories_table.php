@@ -12,16 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->nullable()->after('parent_id');
+            $table->unsignedBigInteger('user_id')->after('parent_id'); // Movido después de 'parent_id'
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
-
-
     }
-
-    /**
-     * Reverse the migrations.
-     */
+    
     public function down(): void
     {
         Schema::table('categories', function (Blueprint $table) {
@@ -29,4 +24,5 @@ return new class extends Migration
             $table->dropColumn('user_id');
         });
     }
+    
 };

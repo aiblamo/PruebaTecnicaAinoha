@@ -1,14 +1,14 @@
 <?php
 
 namespace Database\Factories;
+use App\Models\Product;
+use App\Models\User;
 use App\Models\Category;
+use App\Models\ProductPrice;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Faker\Factory as FakerFactory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Category>
- */
 class CategoryFactory extends Factory
 {
     protected $model = Category::class;
@@ -20,7 +20,7 @@ class CategoryFactory extends Factory
         return [
             'name' => $faker->unique()->word,
             'description' => $faker->sentence,
+            'user_id' => User::inRandomOrder()->first()->id ?? User::factory()->create()->id,
         ];
     }
 }
-
